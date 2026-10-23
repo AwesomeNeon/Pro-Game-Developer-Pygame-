@@ -9,6 +9,12 @@ HEIGHT = 700
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("City Skyline")
 
+font =pygame.font.SysFont("Arial", 22, True)
+
+is_day = False
+
+btn_rect = pygame.Rect(790, 20, 190, 45)
+
 stars = []
 for i in range(150):
     x = random.randint(0, WIDTH)
@@ -37,11 +43,56 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.button == 1:
+                if btn_rect.collidepoint(event.pos):
+                   is_day = True
+    
+    if is_day:
+        screen.fill((135, 206, 235))
+        
+        pygame.draw.circle(screen, (255, 220, 50), (150, 120), 50)
+    else:
+        
+        screen.fill((10, 10, 35))
 
-screen.fill((10, 10, 35))
+        pygame.draw.circle(screen, (240, 240, 220), (850, 100), 50)
+    
+        for star in stars:
+           
+            pygame.draw.circle(screen, (255, 255, 255), (star[0], star[1]), star[2])
 
-pygame.draw.circle(screen, (240, 240, 220), (star[0], star[1], star[2]))
+    for building in buildings:
+        x, width, height, windows = building
+        
+        if is_day:
+            building_color = (100, 110, 125)
+            window_color = (180, 220, 55)
+            
+        else:
+            building_color = (25, 25, 25)
+            window_color = (255, 220, 80)
+        pygame.draw.rect(screen, building_color, (x, HEIGHT - height, width, height))
+        for wx, wy in windows:
+            pygame.draw.rect(screen,window_color, (wx, wy, 8, 12))
+        
+    pygame.draw.rect(screen, (40, 40, 40), (0,HEIGHT - 50, WIDTH, 50))
 
-for building in buildings:
-    x, width, height height, windows = building
-    pygame.draw.rect(screen, (25, 25, 25)), (x, HEIGHT - height, width height)
+    for i in range(0, WIDTH, 60):
+        pygame.draw.rect(screen, (255, 255, 255), (i, HEIGHT - 25, 30, 5))
+        
+    if is_day:
+        button_colors = (30, 100, 200)
+        button_text = "switch to night"
+    else:
+        button_colors = (230, 170, 40)
+        button_text = "switch to day"
+        
+    pygame.draw.rect(screen, button_colors, btn_rect, border_radius= 10)
+    text_surface = font.render(button_text, True, (255, 255, 255))
+    btn_text = text_surface.get_rect(center =btn_rect.center)
+    screen.blit(text_surface, btn_text)
+    
+    pygame.display.flip()
+
+pygame.quit()
