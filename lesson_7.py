@@ -9,9 +9,9 @@ HEIGHT = 600
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Weather Simulator")
 
-clock = pygame.time.clock()
+clock = pygame.time.Clock()
 
-SKY = (134, 206, 235)
+SKY = (135, 206, 235)
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 YELLOW = (255, 255, 0)
@@ -56,13 +56,13 @@ while running:
         
         for angle in range (0, 360, 30):
             
-            x1 = 760 + 65 * pygame.math.Vector2(1, 0).rotate(angle.x)
-            y1 = 760 + 65 * pygame.math.Vector2(1, 0).rotate(angle.y)
+            x1 = 760 + 65 * pygame.math.Vector2(1, 0).rotate(angle).x
+            y1 = 100 + 65 * pygame.math.Vector2(1, 0).rotate(angle).y
         
             x2 = 760 + 85 * pygame.math.Vector2(1, 0).rotate(angle).x
             y2 = 100 + 85 * pygame.vector2(1, 0).rotate(angle).y
             
-            pygame.draw.line(screen, YELLOW, (x1, y1), (x2, x2),3)
+            pygame.draw.line(screen, YELLOW, (x1, y1), (x2, y2),3)
             
     if weather == "rain":
         cloud_color = (70, 70, 70)
@@ -83,9 +83,9 @@ while running:
         
         for drop in raindrops:
             
-            pygame.draw.line(screen, BLUE, (drop[0], drop[1], drop[0], drop[1] + 12), 2)
+            pygame.draw.line(screen, BLUE, (drop[0], drop[1]),( drop[0], drop[1] + 12), 2)
             
-            drop[0] += 10
+            drop[1] += 10
             
             if drop[1] > HEIGHT:
                 drop[1] = random.randint(-100, 0)
@@ -104,11 +104,11 @@ while running:
                 snow[1] = random.randint(-100, 0)
                 snow[0] = random.randint(0, WIDTH)
                 
-                if weather == "Snow":
+    if weather == "Snow":
                     ground_color = WHITE
-                else:
+    else:
                     ground_color = GREEN
-                    pygame.draw.rect(screen, ground_color, (0, 420, WIDTH, 180))
+    pygame.draw.rect(screen, ground_color, (0, 420, WIDTH, 180))
     
     if weather == "Snow":
         
@@ -116,9 +116,56 @@ while running:
         
         pygame.draw.circle(screen, WHITE, (730, 275), 42)
         
-        pygame.draw.circle(screen, WHITE (730 215), 28)
+        pygame.draw.circle(screen, WHITE, (730, 215), 28)
         
-        pygame.draw.arc(screen, BLACK, (722, 215), 28)
-        pygame.draw.circle(screen, BLACK (738, 208), 3)
         
-        pygame.draw.arc(screen, BLACK, (722, 208),)
+        pygame.draw.arc(screen, BLACK, (722, 208),3)
+        pygame.draw.circle(screen, BLACK, (738, 208), 3)
+        
+        pygame.draw.arc(screen, BLACK, (716, 217, 28, 18), 3.5, 5.9, 1)
+        
+        pygame.draw.polygon(screen, (255, 140, 0), [(730, 218), (748, 221), (730, 224)])
+        
+        pygame.draw.circle(screen, BLACK, (730, 260), 4)
+        pygame.draw.circle(screen, BLACK, (730, 275), 4)
+        pygame.draw.circle(screen, BLACK, (730, 290), 4) 
+        
+        pygame.draw.line(screen, (120, 70, 20), (690, 275), (645, 235), 3)
+        pygame.draw.line(screen,(120, 70, 20), (770, 275), (815, 235), 3)
+        
+        pygame.draw.rect(screen, BLACK, (705, 180, 50, 8))
+        
+        pygame.draw.rect(screen,BLACK, (715, 135, 30, 45))
+        
+        pygame.draw.rect(screen, (255, 210, 0), sun_button, border_radius=10)
+        pygame.draw.rect(screen, (90, 140, 255), rain_button, border_radius=10)
+        pygame.rect(screen, (220, 220, 220), snow_button, border_radius=10)
+        
+        screen.blit(font.render("Sunny", True, BLACK), (82, 540))
+        screen.blit(font.render("Rain", True, BLACK), (280, 540))
+        screen.blit(font.render("Snow", True, BLACK), (468, 540))
+        
+        text = font.render("Current Weather : " + weather, True, BLACK)
+        screen.blit(text, (610, 535))
+        
+        for event in pygame.event.get():
+            
+            if event.type == pygame.QUIT:
+                running = False
+                
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                    
+                    if sun_button.collidepoint(event.pos):
+                        weather = "Sunny"
+                        
+                    elif rain_button.collidepoint(event.pos):
+                        weather = "Rain"
+                        
+                    elif snow_button.collidepoint(event.pos):
+                        weather = "Snow"
+                        
+        pygame.display.update()
+        clock.tick(60)
+                    
+pygame.quit()
+                
