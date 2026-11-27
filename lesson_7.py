@@ -51,7 +51,7 @@ snow_button = pygame.Rect(440, 525, 120, 50)
 running = True
 while running:
     screen.fill(SKY)
-    if weather == "sunny":
+    if weather == "Sunny":
         pygame.draw.circle(screen, YELLOW, (760, 100), 55)
         
         for angle in range (0, 360, 30):
@@ -60,11 +60,11 @@ while running:
             y1 = 100 + 65 * pygame.math.Vector2(1, 0).rotate(angle).y
         
             x2 = 760 + 85 * pygame.math.Vector2(1, 0).rotate(angle).x
-            y2 = 100 + 85 * pygame.vector2(1, 0).rotate(angle).y
+            y2 = 100 + 85 * pygame.Vector2(1, 0).rotate(angle).y
             
             pygame.draw.line(screen, YELLOW, (x1, y1), (x2, y2),3)
             
-    if weather == "rain":
+    if weather == "Rain":
         cloud_color = (70, 70, 70)
     else:
         cloud_color = WHITE
@@ -79,7 +79,7 @@ while running:
         if cloud[0] > WIDTH + 60:
             cloud[0] = -60
    
-    if weather == "rain":
+    if weather == "Rain":
         
         for drop in raindrops:
             
@@ -91,7 +91,7 @@ while running:
                 drop[1] = random.randint(-100, 0)
                 drop[0] = random.randint(0, WIDTH)
                 
-    if weather == "snow":
+    if weather == "Snow":
         
         for snow in snowflakes:
             
@@ -119,7 +119,7 @@ while running:
         pygame.draw.circle(screen, WHITE, (730, 215), 28)
         
         
-        pygame.draw.arc(screen, BLACK, (722, 208),3)
+        pygame.draw.circle(screen, BLACK, (722, 208),3)
         pygame.draw.circle(screen, BLACK, (738, 208), 3)
         
         pygame.draw.arc(screen, BLACK, (716, 217, 28, 18), 3.5, 5.9, 1)
@@ -137,35 +137,35 @@ while running:
         
         pygame.draw.rect(screen,BLACK, (715, 135, 30, 45))
         
-        pygame.draw.rect(screen, (255, 210, 0), sun_button, border_radius=10)
-        pygame.draw.rect(screen, (90, 140, 255), rain_button, border_radius=10)
-        pygame.rect(screen, (220, 220, 220), snow_button, border_radius=10)
+    pygame.draw.rect(screen, (255, 210, 0), sun_button, border_radius=10)
+    pygame.draw.rect(screen, (90, 140, 255), rain_button, border_radius=10)
+    pygame.draw.rect(screen, (220, 220, 220), snow_button, border_radius=10)
         
-        screen.blit(font.render("Sunny", True, BLACK), (82, 540))
-        screen.blit(font.render("Rain", True, BLACK), (280, 540))
-        screen.blit(font.render("Snow", True, BLACK), (468, 540))
+    screen.blit(font.render("Sunny", True, BLACK), (82, 540))
+    screen.blit(font.render("Rain", True, BLACK), (280, 540))
+    screen.blit(font.render("Snow", True, BLACK), (468, 540))
         
-        text = font.render("Current Weather : " + weather, True, BLACK)
-        screen.blit(text, (610, 535))
+    text = font.render("Current Weather : " + weather, True, BLACK)
+    screen.blit(text, (610, 535))
         
-        for event in pygame.event.get():
+    for event in pygame.event.get():
             
-            if event.type == pygame.QUIT:
-                running = False
+        if event.type == pygame.QUIT:
+            running = False
                 
-            if event.type == pygame.MOUSEBUTTONDOWN:
+        if event.type == pygame.MOUSEBUTTONDOWN:
                     
-                    if sun_button.collidepoint(event.pos):
-                        weather = "Sunny"
+                if sun_button.collidepoint(event.pos):
+                    weather = "Sunny"
                         
-                    elif rain_button.collidepoint(event.pos):
-                        weather = "Rain"
+                elif rain_button.collidepoint(event.pos):
+                    weather = "Rain"
                         
-                    elif snow_button.collidepoint(event.pos):
-                        weather = "Snow"
+                elif snow_button.collidepoint(event.pos):
+                    weather = "Snow"
                         
-        pygame.display.update()
-        clock.tick(60)
+    pygame.display.update()
+    clock.tick(60)
                     
 pygame.quit()
                 
